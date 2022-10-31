@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import login from "../../../../assets/images/login/login.svg";
 
 const Login = () => {
   const handleLogin = (event) => {
-    event.preventDefault( );
+    event.preventDefault();
   };
   return (
     <div className="hero my-20">
@@ -45,6 +46,12 @@ const Login = () => {
             <div className="form-control mt-6">
               <input className="btn btn-primary" type="submit" value="Login" />
             </div>
+            <p className="mt-3 text-center">
+              New to Genius Car ?{" "}
+              <Link className="text-orange-600 font-semibold" to="/signup">
+                Sign Up
+              </Link>{" "}
+            </p>
           </div>
         </form>
       </div>
