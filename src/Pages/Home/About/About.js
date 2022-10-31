@@ -1,0 +1,43 @@
+import React from "react";
+import parts from "../../../assets/images/about_us/parts.jpg";
+import person from "../../../assets/images/about_us/person.jpg";
+
+const About = () => {
+  return (
+    <div className="hero my-20">
+      <div className="hero-content flex-col lg:flex-row">
+        <div className="w-1/2 relative">
+          <img
+            src={person}
+            alt=""
+            className="w-4/5 h-full rounded-lg shadow-2xl"
+          />
+          <img
+            src={parts}
+            alt=""
+            className="w-3/5 absolute top-1/2 right-5 rounded-lg shadow-2xl border-8"
+          />
+        </div>
+        <div className="w-1/2">
+          <p className="text-orange-600 font-bold ">About Us</p>
+          <h1 className="text-5xl font-bold my-5">
+            {" "}
+            We are qualified <br /> & of experience <br /> in this field
+          </h1>
+          <p className="py-6">
+            {" "}
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi
+            voluptas sed quis itaque ipsum quas eum sit deserunt fugit? Quaerat
+            rem sed voluptatibus dicta saepe. Temporibus ea, amet sint dolorem
+            hic eum aliquid laudantium soluta incidunt? Dicta, <br /> <br />{" "}
+            voluptatum. Expedita quas perferendis possimus officia quidem
+            cupiditate quibusdam maxime, a debitis minima.
+          </p>
+          <button className="btn bg-orange-600 border-0">GET MORE INFO</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default About;
