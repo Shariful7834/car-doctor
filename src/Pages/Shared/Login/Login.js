@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import login from "../../../../assets/images/login/login.svg";
+import login from "../../../assets/images/login/login.svg";
 
 const Login = () => {
   const handleLogin = (event) => {
@@ -52,6 +52,9 @@ const Login = () => {
                 Sign Up
               </Link>{" "}
             </p>
+          </div>
+          <div>
+            
           </div>
         </form>
       </div>
