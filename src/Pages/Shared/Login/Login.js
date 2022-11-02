@@ -1,10 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import login from "../../../assets/images/login/login.svg";
+import { AuthContext } from "../../../context/AuthProvider/AuthProvider";
 
 const Login = () => {
+  const { loginUser, user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  let location = useLocation();
+  let from = location.state?.from?.pathname || "/";
+
   const handleLogin = (event) => {
     event.preventDefault();
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log(email, password);
+
+    loginUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        navigate(from, { replace: true });
+      })
+      .catch((error) => console.error(error));
   };
   return (
     <div className="hero my-20">
@@ -23,9 +42,11 @@ const Login = () => {
                 <span className="label-text">Email</span>
               </label>
               <input
-                type="text"
+                type="email"
+                name="email"
                 placeholder="email"
                 className="input input-bordered"
+                required
               />
             </div>
             <div className="form-control">
@@ -33,7 +54,8 @@ const Login = () => {
                 <span className="label-text">Password</span>
               </label>
               <input
-                type="text"
+                type="password"
+                name="password"
                 placeholder="password"
                 className="input input-bordered"
               />
@@ -53,9 +75,7 @@ const Login = () => {
               </Link>{" "}
             </p>
           </div>
-          <div>
-            
-          </div>
+          <div></div>
         </form>
       </div>
     </div>
