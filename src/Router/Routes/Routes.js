@@ -27,7 +27,9 @@ export const router = createBrowserRouter([
       {
         path: "/checkout/:id",
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/services/${params.id}`),
+          fetch(
+            `https://genius-car-server-gules.vercel.app/services/${params.id}`
+          ),
         element: <Checkout></Checkout>,
       },
       {

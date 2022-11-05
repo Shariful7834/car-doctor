@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const OrderList = ({ order, handleDeleteOrder }) => {
-  const { serviceName, price, _id, customer, service } = order;
+const OrderList = ({ order, handleDeleteOrder, handleUpdate }) => {
+  const { serviceName, price, _id, customer, service, status } = order;
 
   const [orderLists, setOrderLists] = useState({});
-  const { img } = orderLists;
+  // const { img } = orderLists;
   useEffect(() => {
-    fetch(`http://localhost:5000/services/${service}`)
+    fetch(`https://genius-car-server-gules.vercel.app/services/${service}`)
       .then((res) => res.json())
       .then((data) => setOrderLists(data))
       .catch((error) => console.error(error));
@@ -42,7 +42,12 @@ const OrderList = ({ order, handleDeleteOrder }) => {
       <td>{serviceName}</td>
       <td>{price}</td>
       <th>
-        <button className="btn btn-ghost btn-xs">details</button>
+        <button
+          onClick={() => handleUpdate(_id)}
+          className="btn btn-ghost btn-xs"
+        >
+          {status ? status : "Pending"}
+        </button>
       </th>
     </tr>
   );

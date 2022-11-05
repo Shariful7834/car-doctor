@@ -3,18 +3,30 @@ import { AuthContext } from "../../../context/AuthProvider/AuthProvider";
 import OrderList from "./OrderList";
 
 const Orders = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
   useEffect(() => {
-    fetch(`http://localhost:5000/orders?email=${user?.email}`)
-      .then((res) => res.json())
+    fetch(
+      `https://genius-car-server-gules.vercel.app/orders?email=${user?.email}`,
+      {
+        headers: {
+          authorization: `bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.status === 401 || res.status === 403) {
+          logOut();
+        }
+        return res.json();
+      })
       .then((data) => setOrders(data));
   }, [user?.email]);
 
   const handleDeleteOrder = (id) => {
     const proceed = window.confirm("Do you want to cancel your order?");
     if (proceed) {
-      fetch(`http://localhost:5000/orders/${id}`, {
+      fetch(`https://genius-car-server-gules.vercel.app/orders/${id}`, {
         method: "DELETE",
       })
         .then((res) => res.json())
@@ -27,6 +39,29 @@ const Orders = () => {
         })
         .catch((error) => console.error(error));
     }
+  };
+
+  const handleUpdate = (id) => {
+    fetch(`https://genius-car-server-gules.vercel.app/orders/${id}`, {
+      method: "PATCH",
+      Headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: "Approved" }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        // const proceed = window.confirm('Product Updated Successfully')
+        if (data.modifiedCount > 0) {
+          const remaining = orders.filter((odr) => odr._id !== id);
+          const approving = orders.find((odr) => odr._id === id);
+          approving.status = "Approved";
+          const newOrders = [approving, ...remaining];
+          setOrders(newOrders);
+        }
+      })
+      .catch((error) => console.error(error));
   };
 
   return (
@@ -44,7 +79,7 @@ const Orders = () => {
               <th>Name</th>
               <th>Service Name</th>
               <th>Price</th>
-              <th>Message</th>
+              <th>Status</th>
               <th></th>
             </tr>
           </thead>
@@ -54,6 +89,7 @@ const Orders = () => {
                 key={order._id}
                 order={order}
                 handleDeleteOrder={handleDeleteOrder}
+                handleUpdate={handleUpdate}
               ></OrderList>
             ))}
           </tbody>
